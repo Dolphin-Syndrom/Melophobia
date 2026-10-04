@@ -1,0 +1,648 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=VT323&display=swap');
+
+/* ---------- CSS Variables ---------- */
+.melo-app {
+  --melo-bg: #dce1e8;
+  --melo-text: #1a202c;
+  --melo-text-dim: #334155;
+  --melo-text-bright: #07090e;
+
+  --melo-accent: #07090e;
+  --melo-success: #07090e;
+  --melo-error: #64748b;
+
+  --melo-font: 'Space Mono', monospace;
+  --melo-font-pixel: 'Press Start 2P', monospace;
+
+  /* Neumorphism Shadows - soft, non-glaring highlights that blend seamlessly with noise */
+  --neo-out: 5px 5px 12px rgba(145, 158, 175, 0.45), -5px -5px 12px rgba(255, 255, 255, 0.35);
+  --neo-out-sm: 3px 3px 6px rgba(145, 158, 175, 0.45), -3px -3px 6px rgba(255, 255, 255, 0.35);
+  --neo-in: inset 4px 4px 8px rgba(145, 158, 175, 0.45), inset -4px -4px 8px rgba(255, 255, 255, 0.3);
+  --neo-in-sm: inset 2px 2px 4px rgba(145, 158, 175, 0.45), inset -2px -2px 4px rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- Base Layout ---------- */
+.melo-app {
+  font-family: var(--melo-font);
+  background: var(--melo-bg);
+  color: var(--melo-text);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.melo-app *,
+.melo-app *::before,
+.melo-app *::after {
+  box-sizing: border-box;
+}
+
+.melo-container {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 16px 16px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  min-height: 100dvh;
+  position: relative;
+  z-index: 3;
+}
+
+.melo-landing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 32px 20px;
+}
+
+/* ---------- Typography ---------- */
+.melo-title {
+  font-family: var(--melo-font-pixel);
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: var(--melo-text-bright);
+  text-align: center;
+  margin-bottom: 12px;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+}
+
+.melo-subtitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #07090e;
+  text-align: center;
+  margin-bottom: 32px;
+  line-height: 1.6;
+  letter-spacing: -0.2px;
+}
+
+.melo-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--melo-text-bright);
+  margin-bottom: 12px;
+}
+
+/* ---------- Components ---------- */
+/* Square raised card (for landing vinyl) */
+.melo-square-card {
+  width: 160px;
+  height: 160px;
+  background: var(--melo-bg);
+  border-radius: 28px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  box-shadow: var(--neo-out), inset 1px 1px 1.5px rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+}
+
+/* Round Back Button */
+.melo-back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: var(--melo-bg);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--neo-out-sm), inset 1px 1px 1px rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--melo-text-bright);
+  font-size: 1.2rem;
+  cursor: pointer;
+  position: absolute;
+  top: 24px;
+  left: 20px;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.melo-back-btn:active {
+  box-shadow: var(--neo-in-sm);
+}
+
+.melo-header-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 32px;
+  color: var(--melo-text-bright);
+}
+
+/* Buttons */
+.melo-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 18px;
+  font-family: var(--melo-font);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--melo-bg);
+  box-shadow:
+    var(--neo-out),
+    inset 1px 1px 1.5px rgba(255, 255, 255, 0.85),
+    inset -1px -1px 1.5px rgba(145, 158, 175, 0.35);
+  color: var(--melo-text-bright);
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+}
+
+.melo-btn:hover {
+  border-color: #ffffff;
+  box-shadow:
+    var(--neo-out),
+    0 0 10px rgba(255, 255, 255, 0.5),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.95);
+}
+
+.melo-btn:active:not(:disabled) {
+  box-shadow: var(--neo-in);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: scale(0.98);
+}
+
+.melo-btn:disabled {
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+/* Inputs */
+.melo-input {
+  width: 100%;
+  padding: 14px 20px;
+  background: var(--melo-bg);
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-radius: 18px;
+  color: var(--melo-text-bright);
+  font-family: var(--melo-font);
+  font-size: 0.9rem;
+  outline: none;
+  box-shadow: var(--neo-in);
+  margin-bottom: 24px;
+}
+
+.melo-input::placeholder {
+  color: var(--melo-text-dim);
+}
+
+/* Chips */
+.melo-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.melo-chip {
+  padding: 10px 16px;
+  background: var(--melo-bg);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: 14px;
+  font-family: var(--melo-font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--melo-text-bright);
+  cursor: pointer;
+  box-shadow: var(--neo-out-sm), inset 1px 1px 1px rgba(255, 255, 255, 0.65);
+  transition: all 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.melo-chip:active {
+  box-shadow: var(--neo-in-sm);
+}
+
+.melo-chip.active {
+  border-color: rgba(145, 158, 175, 0.7);
+  box-shadow: var(--neo-in-sm);
+  color: var(--melo-text-bright);
+  font-weight: 700;
+}
+
+/* Segments */
+.melo-segments {
+  display: flex;
+  gap: 8px;
+  background: var(--melo-bg);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 18px;
+  padding: 6px;
+  box-shadow: var(--neo-in);
+  margin-bottom: 24px;
+}
+
+.melo-segment {
+  flex: 1;
+  padding: 10px 0;
+  border: 1.5px solid transparent;
+  background: transparent;
+  border-radius: 13px;
+  color: var(--melo-text);
+  font-family: var(--melo-font);
+  font-size: 0.85rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+
+.melo-segment.active {
+  background: var(--melo-bg);
+  color: var(--melo-text-bright);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--neo-out-sm), inset 1px 1px 1px rgba(255, 255, 255, 0.75);
+  font-weight: 700;
+}
+
+/* Player List (Lobby & Reveal) */
+.melo-recessed-box {
+  background: var(--melo-bg);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--neo-in);
+  margin-bottom: 24px;
+}
+
+.melo-player-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--melo-text-dim);
+}
+
+.melo-player-item:last-child {
+  border-bottom: none;
+}
+
+.melo-player-avatar {
+  font-size: 1.2rem;
+}
+
+.melo-player-name {
+  font-size: 0.9rem;
+  flex: 1;
+  color: var(--melo-text-bright);
+}
+
+.melo-player-score {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--melo-text-bright);
+}
+
+/* Gameplay / Answers */
+.melo-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--melo-bg);
+  box-shadow: var(--neo-in-sm);
+  border-radius: 4px;
+  margin: 16px 0 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.melo-progress-fill {
+  height: 100%;
+  background: var(--melo-text-dim);
+  border-radius: 4px;
+}
+
+.melo-audio-viz {
+  background: var(--melo-bg);
+  border-radius: 20px;
+  padding: 14px 18px;
+  box-shadow: var(--neo-in);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.melo-play-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--melo-bg);
+  box-shadow: var(--neo-out-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--melo-text-bright);
+}
+
+.melo-wave {
+  flex: 1;
+  height: 30px;
+  background-image: repeating-linear-gradient(90deg, var(--melo-text-bright) 0px, var(--melo-text-bright) 2px, transparent 2px, transparent 6px);
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0.2) 50%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0.2) 50%);
+}
+
+.melo-answer-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.melo-answer-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: var(--melo-bg);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  box-shadow: var(--neo-out), inset 1px 1px 1px rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+
+.melo-answer-btn:active:not(:disabled) {
+  box-shadow: var(--neo-in);
+}
+
+.melo-answer-btn.selected {
+  box-shadow: var(--neo-in);
+}
+
+.melo-answer-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--melo-bg);
+  box-shadow: var(--neo-out-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--melo-text-bright);
+}
+
+.melo-answer-btn.selected .melo-answer-letter {
+  box-shadow: var(--neo-in-sm);
+}
+
+.melo-answer-text {
+  font-family: var(--melo-font);
+  font-size: 0.85rem;
+  color: var(--melo-text);
+  text-align: left;
+  flex: 1;
+}
+
+/* Reactions */
+.melo-reactions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.melo-reactions-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.melo-reaction-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--melo-bg);
+  box-shadow: var(--neo-out-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  filter: grayscale(100%);
+}
+
+.melo-reaction-btn:active {
+  box-shadow: var(--neo-in-sm);
+}
+
+.melo-floating-reaction {
+  position: fixed;
+  bottom: 120px;
+  font-size: 2rem;
+  pointer-events: none;
+  z-index: 500;
+  filter: grayscale(100%);
+  animation: float-up 2s ease-out forwards;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1.2);
+  }
+
+  100% {
+    transform: translateY(-150px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Circular Timer */
+.melo-timer-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--melo-bg);
+  box-shadow: var(--neo-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--melo-font-pixel);
+  font-size: 3rem;
+  color: var(--melo-text-bright);
+  margin: 0 auto;
+  position: relative;
+}
+
+.melo-timer-circle::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  border: 2px dashed var(--melo-text-dim);
+  opacity: 0.5;
+}
+
+/* Hidden YT */
+.melo-yt-container {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Leaderboard */
+.melo-trophy {
+  font-size: 4rem;
+  text-align: center;
+  margin-bottom: 16px;
+  filter: grayscale(100%);
+}
+
+.melo-winner-badge {
+  background: var(--melo-bg);
+  box-shadow: var(--neo-in-sm);
+  border-radius: 50px;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+}
+
+/* Animations */
+@keyframes meloSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.melo-spinning {
+  animation: meloSpin 4s linear infinite;
+}
+
+/* Decorative Pixel Elements */
+.melo-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 4px);
+  gap: 8px;
+  opacity: 0.55;
+  user-select: none;
+}
+
+.melo-matrix-dot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--melo-text-bright);
+  border-radius: 1px;
+}
+
+.melo-pixel-plus {
+  font-family: var(--melo-font-pixel);
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: var(--melo-text-bright);
+  opacity: 0.5;
+  user-select: none;
+  line-height: 1;
+}
+
+.melo-pixel-dot {
+  width: 3.5px;
+  height: 3.5px;
+  background-color: var(--melo-text-bright);
+  opacity: 0.55;
+  border-radius: 0.5px;
+  display: inline-block;
+  user-select: none;
+}
+
+/* Toast Notifications */
+.melo-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--melo-text-bright);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-family: var(--melo-font);
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: meloToastPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+}
+
+@keyframes meloToastPop {
+  0% {
+    transform: translate(-50%, -20px) scale(0.9);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Copy Button confirmation transition */
+.melo-copy-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  background: var(--melo-bg);
+  box-shadow: var(--neo-out-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+.melo-copy-btn:hover {
+  transform: scale(1.05);
+}
+
+.melo-copy-btn:active {
+  box-shadow: var(--neo-in-sm);
+  transform: scale(0.96);
+}
+
+.melo-copy-btn.copied {
+  box-shadow: var(--neo-in-sm);
+  border-color: rgba(7, 9, 14, 0.3);
+  background: rgba(7, 9, 14, 0.05);
+  transform: scale(1.02);
+}
