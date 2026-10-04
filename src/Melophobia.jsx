@@ -23,6 +23,10 @@ function Landing() {
   const [joinCode, setJoinCode] = useState('');
   const [showJoin, setShowJoin] = useState(false);
 
+  useEffect(() => {
+    document.title = 'Melophobia — Real-Time Music Guessing Game';
+  }, []);
+
   const handleJoinSubmit = (e) => {
     e.preventDefault();
     const clean = joinCode.trim().toUpperCase();
@@ -124,6 +128,10 @@ function RoomPage() {
   const navigate = useNavigate();
   const game = useGameRoom();
   const yt = useYouTubePlayer();
+
+  useEffect(() => {
+    document.title = code ? `Room ${code.toUpperCase()} • Melophobia` : 'Melophobia';
+  }, [code]);
 
   // Initialize YT player once API is loaded
   useEffect(() => {
@@ -295,6 +303,10 @@ export default function Melophobia() {
 /* Wrapper to connect CreateGame to useGameRoom */
 function CreateGameWrapper() {
   const game = useGameRoom();
+
+  useEffect(() => {
+    document.title = 'Create Room • Melophobia';
+  }, []);
 
   return (
     <>
