@@ -205,15 +205,22 @@ VITE_WS_URL=wss://api.yourdomain.com/ws
 
 ### Scoring Rules
 
-Points depend on accuracy and speed. Only correct answers receive points:
+Points are calculated using a **continuous time-decay formula** where faster correct guesses earn higher points based on elapsed time:
 
-| Answer Position | Points Awarded |
-| :--- | :--- |
-| **1st Correct** (Fastest) | **1000 pts** |
-| **2nd Correct** | **750 pts** |
-| **3rd Correct** | **500 pts** |
-| **4th Correct and later** | **250 pts** |
-| **Incorrect Answer** | **0 pts** |
+- **Maximum Points:** Up to **1000 pts** for rapid answers.
+- **Minimum Base:** Guaranteed **200 pts** for answering correctly before the timer ends.
+- **Speed Rank Bonuses:** **+50 pts** for the 1st correct answer, **+25 pts** for the 2nd correct answer (capped at 1000).
+- **Incorrect or Missed Answer:** **0 pts**.
+
+| Answer Time (15s Clip) | Rank | Points Awarded | Notes |
+| :--- | :--- | :--- | :--- |
+| **0.5s** | 1st | **1000 pts** | Maximum score for instant guess |
+| **2.0s** | 1st | **943 pts** | Fast guess with 1st place speed bonus |
+| **2.0s** | 2nd | **918 pts** | Same time, 2nd place speed bonus |
+| **5.0s** | 3rd | **733 pts** | Smooth time-decay points |
+| **10.0s** | 3rd | **467 pts** | Scaled to elapsed time |
+| **14.5s** | 4th | **227 pts** | Buzzer beater answer |
+| **Any time** | Wrong | **0 pts** | No points for wrong guess |
 
 ---
 

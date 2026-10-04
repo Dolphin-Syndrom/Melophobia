@@ -169,15 +169,23 @@ def end_round(room: Room) -> dict:
     if rd is None:
         return {}
 
+    duration_seconds = float(room.settings.clip_duration or 15)
+
     # Sort correct answers by timestamp to determine positions
     correct_answers = sorted(
         [a for a in rd.answers.values() if a.correct],
         key=lambda a: a.timestamp,
     )
 
-    # Assign points
+    # Assign points using time-decay formula
     for position, answer in enumerate(correct_answers, 1):
-        points = calculate_points(position)
+        time_taken = max(0.0, (answer.timestamp - rd.started_at) / 1000.0)
+        points = calculate_points(
+            position=position,
+            time_taken_seconds=time_taken,
+            total_duration_seconds=duration_seconds,
+            is_correct=True,
+        )
         answer.points = points
         # Update player score
         player = next((p for p in room.players if p.id == answer.player_id), None)
@@ -195,12 +203,14 @@ def end_round(room: Room) -> dict:
     for player in room.players:
         ans = rd.answers.get(player.id)
         if ans:
+            time_taken = max(0.0, (ans.timestamp - rd.started_at) / 1000.0)
             player_results.append({
                 "playerId": player.id,
                 "username": player.username,
                 "correct": ans.correct,
                 "points": ans.points,
                 "answerId": ans.answer_id,
+                "timeTaken": round(time_taken, 1) if ans.correct else None,
             })
         else:
             player_results.append({
@@ -209,6 +219,7 @@ def end_round(room: Room) -> dict:
                 "correct": False,
                 "points": 0,
                 "answerId": None,
+                "timeTaken": None,
             })
 
     room.status = GameStatus.REVEALING
