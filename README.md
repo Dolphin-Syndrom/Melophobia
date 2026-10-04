@@ -1,5 +1,3 @@
-# Melophobia 🎵
-
 ![Melophobia Preview Banner](preview-banner.png)
 
 A real-time multiplayer music guessing game. Players listen to song clips together and compete to identify the track first.
