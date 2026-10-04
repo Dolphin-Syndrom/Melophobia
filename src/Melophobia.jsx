@@ -140,17 +140,33 @@ function RoomPage() {
     }
   }, [yt.apiLoaded, yt.ready, yt.initPlayer]);
 
-  // Play song when round starts
+  // Play song when round starts & reveal when answers are in
   useEffect(() => {
     if (game.status === GAME_STATUS.PLAYING && game.currentRound?.song?.youtubeVideoId && yt.ready) {
       const clipDuration = game.room?.settings?.clipDuration || 15;
       const startSeconds = game.currentRound.startSeconds || 0;
       yt.playSong(game.currentRound.song.youtubeVideoId, startSeconds, clipDuration);
-    }
-    if (game.status === GAME_STATUS.REVEALING || game.status === GAME_STATUS.FINISHED) {
+    } else if (game.status === GAME_STATUS.REVEALING) {
+      // Reveal true song title and artist only at results after everyone has chosen
+      const revealed = game.roundResults?.correctAnswer || game.currentRound?.song;
+      if (revealed) {
+        yt.revealSong(revealed);
+      }
       yt.stop();
+    } else if (game.status === GAME_STATUS.FINISHED || game.status === GAME_STATUS.LOBBY) {
+      yt.stop();
+      yt.clearMediaSession();
     }
-  }, [game.status, game.currentRound?.song?.youtubeVideoId, yt.ready]);
+  }, [
+    game.status,
+    game.currentRound?.song,
+    game.roundResults?.correctAnswer,
+    yt.ready,
+    yt.playSong,
+    yt.revealSong,
+    yt.stop,
+    yt.clearMediaSession,
+  ]);
 
   // Cleanup
   useEffect(() => {
@@ -168,14 +184,18 @@ function RoomPage() {
   }, [game.startGame, yt]);
 
   const handleLeave = useCallback(() => {
+    yt.stop();
+    yt.clearMediaSession();
     game.leaveRoom();
     navigate('/');
-  }, [game.leaveRoom, navigate]);
+  }, [game.leaveRoom, navigate, yt]);
 
   const handleNewGame = useCallback(() => {
+    yt.stop();
+    yt.clearMediaSession();
     game.leaveRoom();
     navigate('/create');
-  }, [game.leaveRoom, navigate]);
+  }, [game.leaveRoom, navigate, yt]);
 
   return (
     <>
